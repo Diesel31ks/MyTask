@@ -120,7 +120,20 @@ public class MyTitleAreaDialog extends TitleAreaDialog {
 		Iterator<String> iterator = strings.iterator();
 		while (iterator.hasNext()) {
 			String string = (String) iterator.next().toLowerCase();
-			replaceAndPutIntoList(newStringsOfSearch, string, replace);
+			if (string.contains(find.toLowerCase())) {
+				int indexOfBegin = string.indexOf(find) - 3;
+				if (indexOfBegin < 0)
+					while (indexOfBegin < 0)
+						indexOfBegin += 1;
+				int indexOfEnd = string.indexOf(find) + replace.length() + 3;
+				if (indexOfEnd > string.length())
+					while (indexOfEnd > string.length())
+						indexOfEnd = string.length() - 1;
+				char[] dst = new char[indexOfEnd - indexOfBegin];
+				string = string.replace(find, replace);
+				string.getChars(indexOfBegin, indexOfEnd, dst, 0);
+				newStringsOfSearch.add(String.valueOf(dst) + "\n");
+			}
 			newStringsOfTextEditor.add(string + "\n");
 		}
 		textEditor.getTextField().setText(newStringsOfTextEditor.toString());
@@ -141,7 +154,19 @@ public class MyTitleAreaDialog extends TitleAreaDialog {
 		Iterator<String> iterator = strings.iterator();
 		while (iterator.hasNext()) {
 			String string = (String) iterator.next().toLowerCase();
-			replaceAndPutIntoList(newStringsOfSearch, string,find);
+			if (string.contains(find.toLowerCase())) {
+				int indexOfBegin = string.indexOf(find) - 3;
+				if (indexOfBegin < 0)
+					while (indexOfBegin < 0)
+						indexOfBegin += 1;
+				int indexOfEnd = string.indexOf(find) + find.length() + 3;
+				if (indexOfEnd > string.length())
+					while (indexOfEnd > string.length())
+						indexOfEnd = string.length() - 1;
+				char[] dst = new char[indexOfEnd - indexOfBegin];
+				string.getChars(indexOfBegin, indexOfEnd, dst, 0);
+				newStringsOfSearch.add(String.valueOf(dst) + "\n");
+			}
 		}
 		search.setTextFieldText(newStringsOfSearch.toString());
 		super.okPressed();
