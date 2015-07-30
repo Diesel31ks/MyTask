@@ -172,23 +172,6 @@ public class MyTitleAreaDialog extends TitleAreaDialog {
 		super.okPressed();
 	}
 
-	private void replaceAndPutIntoList(StringArrayList newStringsOfSearch, String searchingString, String replaceWith) {
-		if (searchingString.contains(find.toLowerCase())) {
-			int indexOfBegin = searchingString.indexOf(find) - 3;
-			if (indexOfBegin < 0)
-				while (indexOfBegin < 0)
-					indexOfBegin += 1;
-			int indexOfEnd = searchingString.indexOf(find) + replaceWith.length() + 3;
-			if (indexOfEnd > searchingString.length())
-				while (indexOfEnd > searchingString.length())
-					indexOfEnd = searchingString.length() - 1;
-			char[] dst = new char[indexOfEnd - indexOfBegin];
-			searchingString = searchingString.replace(find, replaceWith);
-			searchingString.getChars(indexOfBegin, indexOfEnd, dst, 0);
-			newStringsOfSearch.add(String.valueOf(dst) + "\n");
-		}
-	}
-
 	public String getFind() {
 		return find;
 	}
