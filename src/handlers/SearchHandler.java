@@ -4,10 +4,14 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IHandler;
 import org.eclipse.core.commands.IHandlerListener;
-import org.eclipse.jface.window.Window;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 
-import mytask.MyTitleAreaDialog;
+import mytask.Perspective;
+import mytask.SearchingDialog;
+import views.TextEditor;
 
 /**
  * This handler is used for searching/replacing some text in text field in TextEditor view
@@ -16,7 +20,7 @@ import mytask.MyTitleAreaDialog;
  *
  */
 public class SearchHandler implements IHandler {
-	private static MyTitleAreaDialog dialog; 
+	private static SearchingDialog dialog; 
 	
 	@Override
 	public void addHandlerListener(IHandlerListener handlerListener) {
@@ -28,13 +32,19 @@ public class SearchHandler implements IHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
+		TextEditor textEditor = (TextEditor) Perspective.getView(PlatformUI.getWorkbench().getActiveWorkbenchWindow(),
+				TextEditor.ID);
+		Text textField = textEditor.getTextField();
+		
+		if (textField.getEditable() == false) {
+			MessageDialog.openWarning(HandlerUtil.getActiveWorkbenchWindow(event).getShell(), "Warning",
+					"No data to search/replace!");
+			return null;
+		}
+		
 		if (dialog==null)
-			dialog = new MyTitleAreaDialog(HandlerUtil.getActiveWorkbenchWindow(event).getShell());
-		dialog.create();
-		if (dialog.open() == Window.OK) {
-		  System.out.println(dialog.getFind());
-		  System.out.println(dialog.getReplace());
-		} 
+			dialog = new SearchingDialog(HandlerUtil.getActiveWorkbenchWindow(event).getShell());
+		dialog.open();
 		return null;
 	}
 

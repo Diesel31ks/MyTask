@@ -40,12 +40,11 @@ public class Search extends ViewPart {
 							.getView(PlatformUI.getWorkbench().getActiveWorkbenchWindow(), TextEditor.ID);
 					
 					String selectedText = ((Text) e.widget).getSelectionText();
-					String textOfTextEditor = editor.getTextField().getText();
-					int start = 0;
-					int end = 0;
+					String textOfTextEditor = editor.getTextField().getText().toLowerCase();
 					if (textOfTextEditor.contains(selectedText)) {
-						start = textOfTextEditor.indexOf(selectedText);
-						end = start + selectedText.length();
+						//TODO change this selection with MyItemTree.getPosition
+						int start = textOfTextEditor.indexOf(selectedText);
+						int end = start + selectedText.length();
 						editor.getTextField().setSelection(start, end);
 					}
 				}
@@ -54,7 +53,7 @@ public class Search extends ViewPart {
 			textField.setBounds(10, 10, 370, 225);
 		}
 	}
-
+	
 	@Override
 	public void setFocus() {
 	}

@@ -37,42 +37,43 @@ public class TextEditor extends ViewPart {
 			textField.setSize(370, 449);
 			textField.setLocation(10, 10);
 			textField.addModifyListener(new ModifyListener() {
-				
+
 				private Properties properties = (Properties) Perspective
 						.getView(PlatformUI.getWorkbench().getActiveWorkbenchWindow(), Properties.ID);
-				
+
 				private int textLineCount;
 				private int textWordCount;
 				private int textSymvolsCount;
-				
+
 				public void modifyText(ModifyEvent e) {
 					fillStrings();
 					calculationProperties();
 					updateProperties();
 				}
-				
+
 				private void fillStrings() {
 					strings.clear();
 					String[] array = getTextField().getText().split("\n");
-					for (int i=0;i<array.length-1;i++) {
+					for (int i = 0; i < array.length; i++) {
 						strings.add(array[i]);
 					}
 				}
-				
+
 				private void calculationProperties() {
 					setTextLineCount(textField.getLineCount());
 					int wordCount = strings.toString().split(" ").length;
 					setTextWordCount(wordCount);
 					setTextSymvolsCount(textField.getText().length());
 				}
-				
+
 				private void updateProperties() {
-					StringBuilder builder = new StringBuilder().append("Text line's count = " + getTextLineCount() + ";\n");
+					StringBuilder builder = new StringBuilder()
+							.append("Text line's count = " + getTextLineCount() + ";\n");
 					builder.append("Text word's count = " + getTextWordCount() + ";\n");
 					builder.append("Text symbol's count = " + getTextSymvolsCount() + ";\n");
 					properties.setTextFieldText(builder.toString());
 				}
-				
+
 				public int getTextLineCount() {
 					return textLineCount;
 				}
@@ -80,7 +81,7 @@ public class TextEditor extends ViewPart {
 				public void setTextLineCount(int textLineCount) {
 					this.textLineCount = textLineCount;
 				}
-				
+
 				public int getTextWordCount() {
 					return textWordCount;
 				}

@@ -12,6 +12,7 @@ import org.eclipse.core.commands.IHandler;
 import org.eclipse.core.commands.IHandlerListener;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 
@@ -19,8 +20,8 @@ import mytask.Perspective;
 import views.TextEditor;
 
 /**
- * Not implemented. Dialog in menu "Save" works incorrect!
- * This handler is used for saving some text to file
+ * Not implemented. Dialog in menu "Save" works incorrect! This handler is used
+ * for saving some text to file
  * 
  * @author adm.hromov.os
  *
@@ -37,21 +38,24 @@ public class SaveHandler implements IHandler {
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
+		TextEditor textEditor = (TextEditor) Perspective.getView(PlatformUI.getWorkbench().getActiveWorkbenchWindow(),
+				TextEditor.ID);
+		Text textField = textEditor.getTextField();
 		
-		//TODO Menu "Save" must be inactive while TextEditor.getTextField.getEditable==false
-		//TODO create another dialog for opening file
-		
+		if (textField.getEditable() == false) {
+			MessageDialog.openWarning(HandlerUtil.getActiveWorkbenchWindow(event).getShell(), "Warning",
+					"No data to save!");
+			return null;
+		}
 		FileDialog dialog = new FileDialog(HandlerUtil.getActiveWorkbenchWindow(event).getShell());
-		
+
 		String absolutePathToFile = dialog.open();
 		File file = new File(absolutePathToFile);
 
-		TextEditor textEditor = (TextEditor) Perspective.getView(PlatformUI.getWorkbench().getActiveWorkbenchWindow(),
-				TextEditor.ID);
-		String text = textEditor.getTextField().getText();
+		String text = textField.getText();
 		writeFile(file, text, event);
 
-		textEditor.getTextField().setText(textEditor.getStrings().toString());
+		textField.setText(textEditor.getStrings().toString());
 		return null;
 	}
 

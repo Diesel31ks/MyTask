@@ -42,6 +42,11 @@
             id="views.View"
             name="Text Editor">
       </view>
+      <view
+            class="views.NewSearch"
+            id="views.NewSearch"
+            name="New Search">
+      </view>
    </extension>
    
    <extension
@@ -75,7 +80,16 @@
                id="views.Properties"
                minimized="false"
                moveable="false"
-               ratio="1f"
+               ratio="0.5f"
+               relationship="bottom"
+               relative="org.eclipse.ui.editorss"
+               showTitle="true"
+               visible="true">
+         </view>
+         <view
+               id="views.NewSearch"
+               minimized="false"
+               ratio="1.f"
                relationship="bottom"
                relative="org.eclipse.ui.editorss"
                showTitle="true"
